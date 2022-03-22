@@ -1,9 +1,12 @@
 import React,{useState} from "react";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Home = () => {
   const [turn, setTurn] = useState("x")
   const [cells, setCells] = useState(Array(9).fill(''))
   const [win, setWin] = useState('')
+  let [countClick, setCountClick] = useState(0)
 
   const checkWin = (squre)=>{
    let combos ={ 
@@ -23,6 +26,8 @@ const Home = () => {
      ]
    }
 
+
+
    for(let combo in combos){
      
     combos[combo].forEach(ele=>{
@@ -30,15 +35,19 @@ const Home = () => {
            // nothing
      }else if(squre[ele[0]] === squre[ele[1]] && squre[ele[1]] === squre[ele[2]]){
       setWin(squre[ele[0]] );
+      toast.success(`${squre[ele[0]]} won`)
   }})}
+
+
+
   }
   
   const turnHendler = (num) => {
     if(win !== ''){
-     return alert(`${win} is win press reset button to play again`);
+     return toast.success(`${win} is win  \n press reset button to play agian`);
     }
     if(cells[num] !== ''){
-      alert('already Clicked')
+      toast.warn('Already Clicked')
       return;
     }
     let squre = [...cells]
@@ -51,41 +60,54 @@ const Home = () => {
       squre[num] = "0" 
     }
  setCells(squre)
- checkWin(squre)
-  };
-const Cell = ({num}) => {
-    return <td onClick={()=>turnHendler(num)}>{cells[num]}</td>;
-  };
+ checkWin(squre);
+ const ans = cells.every(ele=>(ele !== ''))
+ if(!ans) setCountClick(countClick+1)
 
-const reset = ()=>{
-  setCells(Array(9).fill(''))
-  setWin('');
-
+if(countClick === 8) {
+  if(win === ""){
+    toast.warn("Draw match") 
+  }  
 }
+
+  };
+  const reset = ()=>{
+    setCells(Array(9).fill(''))
+    setWin('');
+    setCountClick(0)
+  
+  }
+
+const Cell = ({num,border}) => {
+    return <td className={border}onClick={()=>turnHendler(num)}>{cells[num]}</td>;
+  };
+
+
 
 
   return (
     <>
       <div className="home">
+        <ToastContainer position="top-center" />
         <h1>Turn: {turn} </h1>
 
        {win !== '' ?  <h2> Winer: {win}</h2> : null} 
         <table>
           <tbody>
             <tr>
-              <Cell num={0} />
-              <Cell num={1} />
-              <Cell num={2} />
+              <Cell border={"bt_0 bl_0"} num={0} />
+              <Cell border={"bt_0"} num={1} />
+              <Cell border={"bt_0 br_0"} num={2} />
             </tr>
             <tr>
-              <Cell num={3} />
-              <Cell num={4} />
-              <Cell num={5} />
+              <Cell border={"bl_0"} num={3} />
+              <Cell  num={4} />
+              <Cell border={"br_0"} num={5} />
             </tr>
             <tr>
-              <Cell num={6} />
-              <Cell num={7} />
-              <Cell num={8} />
+              <Cell border={"bb_0 bl_0"} num={6} />
+              <Cell border={"bb_0"} num={7} />
+              <Cell border={"bb_0 br_0"} num={8} />
             </tr>
           </tbody>
         </table>
