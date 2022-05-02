@@ -1,89 +1,89 @@
-import React,{useState} from "react";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import React, { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Home = () => {
-  const [turn, setTurn] = useState("x")
-  const [cells, setCells] = useState(Array(9).fill(''))
-  const [win, setWin] = useState('')
-  let [countClick, setCountClick] = useState(0)
+  const [turn, setTurn] = useState("x");
+  const [cells, setCells] = useState(Array(9).fill(""));
+  const [win, setWin] = useState("");
+  let [countClick, setCountClick] = useState(0);
 
-  const checkWin = (squre)=>{
-   let combos ={ 
-     across :[
-      [0,1,2],
-      [3,4,5],
-      [6,7,8],
-     ],
-     down :[
-      [0,3,6],
-      [1,4,7],
-      [2,5,8],
-     ],
-     dignol:[
-      [0,4,8],
-      [2,4,6],
-     ]
-   }
+  const checkWin = (squre) => {
+    let combos = {
+      across: [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+      ],
+      down: [
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+      ],
+      dignol: [
+        [0, 4, 8],
+        [2, 4, 6],
+      ],
+    };
 
-
-
-   for(let combo in combos){
-     
-    combos[combo].forEach(ele=>{
-     if(squre[ele[0]] === '' ||squre[ele[1]] === '' ||squre[ele[2]] === '' ){
-           // nothing
-     }else if(squre[ele[0]] === squre[ele[1]] && squre[ele[1]] === squre[ele[2]]){
-      setWin(squre[ele[0]] );
-      toast.success(`${squre[ele[0]]} won`)
-  }})}
-
-
-
-  }
-  
-  const turnHendler = (num) => {
-    if(win !== ''){
-     return toast.success(`${win} is win  \n press reset button to play agian`);
+    for (let combo in combos) {
+      combos[combo].forEach((ele) => {
+        if (
+          squre[ele[0]] === "" ||
+          squre[ele[1]] === "" ||
+          squre[ele[2]] === ""
+        ) {
+          // nothing
+        } else if (
+          squre[ele[0]] === squre[ele[1]] &&
+          squre[ele[1]] === squre[ele[2]]
+        ) {
+          setWin(squre[ele[0]]);
+          return toast.success(`${squre[ele[0]]} won`);
+        }
+      });
     }
-    if(cells[num] !== ''){
-      toast.warn('Already Clicked')
+  };
+
+  const turnHendler = (num) => {
+    if (win !== "") {
+      return toast.success(
+        `Press Reset Button`
+      );
+    }
+    if (cells[num] !== "") {
+      toast.warn("Already Clicked");
       return;
     }
-    let squre = [...cells]
-    if(turn ==="x" ){
-      squre[num] = "x" 
-      setTurn("0")
-      
-    }else{
-      setTurn("x") 
-      squre[num] = "0" 
+    let squre = [...cells];
+    if (turn === "x") {
+      squre[num] = "x";
+      setTurn("0");
+    } else {
+      setTurn("x");
+      squre[num] = "0";
     }
- setCells(squre)
- checkWin(squre);
- const ans = cells.every(ele=>(ele !== ''))
- if(!ans) setCountClick(countClick+1)
-
-if(countClick === 8) {
-  if(win === ""){
-    toast.warn("Draw match") 
-  }  
-}
-
+    setCells(squre);
+    checkWin(squre);
+    const ans = cells.every((ele) => ele !== "");
+    if (!ans) setCountClick(countClick + 1);
+    if (win !== "" || countClick === 8) {
+      return toast.warn("Draw match");
+    }
   };
-  const reset = ()=>{
-    setCells(Array(9).fill(''))
-    setWin('');
-    setCountClick(0)
-  
-  }
-
-const Cell = ({num,border}) => {
-    return <td className={border}onClick={()=>turnHendler(num)}>{cells[num]}</td>;
+  const reset = () => {
+    setCells(Array(9).fill(""));
+    setWin("");
+    setCountClick(0);
   };
 
-
-
+  const Cell = ({ num, border }) => {
+    return (
+      <td className={border} onClick={() => turnHendler(num)}>
+        {cells[num]}
+      </td>
+    );
+  };
 
   return (
     <>
@@ -91,7 +91,7 @@ const Cell = ({num,border}) => {
         <ToastContainer position="top-center" />
         <h1>Turn: {turn} </h1>
 
-       {win !== '' ?  <h2> Winer: {win}</h2> : null} 
+        {win !== "" ? <h2> Winer: {win}</h2> : null}
         <table>
           <tbody>
             <tr>
@@ -101,7 +101,7 @@ const Cell = ({num,border}) => {
             </tr>
             <tr>
               <Cell border={"bl_0"} num={3} />
-              <Cell  num={4} />
+              <Cell num={4} />
               <Cell border={"br_0"} num={5} />
             </tr>
             <tr>
@@ -111,7 +111,10 @@ const Cell = ({num,border}) => {
             </tr>
           </tbody>
         </table>
-        <button className="btn" onClick={reset}> Reset </button>
+        <button className="btn" onClick={reset}>
+          {" "}
+          Reset{" "}
+        </button>
       </div>
     </>
   );

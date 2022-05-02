@@ -1,25 +1,51 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital@1&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital@1&display=swap");
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
 .home {
   min-height: 100vh;
   min-width: 100vw;
-  background: #bdc3c7;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #2c3e50, #bdc3c7);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #2c3e50, #bdc3c7); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-  
+  background: #bdc3c7; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #2c3e50,
+    #bdc3c7
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #2c3e50,
+    #bdc3c7
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 }
-table{
+h1 {
+  margin-bottom: 3rem;
+  color: #e2f2ff;
+}
+table {
   border-spacing: 0px;
+  box-shadow: 0px 1px 15px 1px #2895ec;
+  border-radius: 12px;
+  color: #e2f2ff;
+  animation-name: style;
+  animation-duration: 4s;
+}
+
+@keyframes style {
+  from {
+    box-shadow: 0px 1px 15px 1px #2895ec;
+  }
+  to {
+    box-shadow: 0px 1px 15px 1px #008cff;
+  }
 }
 table tr td {
   font-size: 8vw;
@@ -45,7 +71,7 @@ table tr td {
   border-right: 0;
 }
 
-.btn{
+.btn {
   padding: 3px 20px;
   font-size: 2vw;
   margin: 21px;
@@ -54,13 +80,17 @@ table tr td {
   border-radius: 5px;
   border: none;
   cursor: pointer;
+  box-shadow: 0px 1px 15px 1px #2895ec;
 }
-
 
 @media screen and (max-width: 600px) {
   table tr td {
     font-size: 20vw;
     height: 30vw;
     width: 30vw;
+  }
+  .btn {
+    font-size: 4vw;
+    background-color: #3696e2;
   }
 }
